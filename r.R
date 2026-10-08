@@ -18,7 +18,10 @@
 if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
 if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
 if(!require(data.table)) install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(ggrepel)) install.packages("ggrepel", repos = "http://cran.us.r-project.org")
 
+
+library(ggrepel)
 library(tidyverse)
 library(caret)
 library(data.table)
@@ -461,7 +464,7 @@ prediction <- validation %>%
   left_join(b_u_user_avg, by = "userId") %>% 
   left_join(b_i_rating_avg, by = "movieId") %>% 
   left_join(b_g_genres_avg, by = "genres") %>% 
-  summarise(predict = mu + b_i + b_u + b_g) %>% 
+  mutate(predict = mu + b_i + b_u + b_g) %>%  # 08/10/2026 cambié summarise por MUTATE.
   pull(predict)
 
   
@@ -563,7 +566,7 @@ predicted_ratings <- validation %>%
   left_join(b_u_user_avg, by = "userId") %>% 
   left_join(b_i_rating_avg, by = "movieId") %>% 
   left_join(b_g_genres_avg, by = "genres") %>% 
-  summarise(predict = mu + b_i + b_u + b_g) %>% 
+  mutate(predict = mu + b_i + b_u + b_g) %>%  # 08/10/2026 cambié summarise por MUTATE.
   pull(predict) 
 
 final_3_model_rmse <- RMSE(validation$rating, predicted_ratings)
